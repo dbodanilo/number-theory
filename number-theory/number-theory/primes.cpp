@@ -13,31 +13,38 @@
 
 ll mod(ll x, ll n) {
     /// Limit x to [0..n]
-    if (x < 0) x -= n * (x / n - 1);
-
-    return (x % n);
+    return ((x % n) + n) % n;
 }
 
 ll modpow(ll base, ll exp, ll n) {
     /// Naive implementation.
-//    return mod((ll)pow(base, exp), n);
-    ll e = exp;
+    //    return mod((ll)pow(base, exp), n);
+
+    /// `fle == floor(log2(exp))`
     int fle = 0;
+    ll e = exp;
     while (e >>= 1) fle++;
 
-    ll k = 1;
-    ll ak = mod(base, n);
+    /// `exp` so far.
+    ll k = 0;
+    /// `a**k` so far.
+    ll ak = 1;
+
+    ll a1 = mod(base, n);
+    ll a2 = mod(a1 * a1, n);
 
     for (int i = 0; i < fle; i += 1) {
-        ak = mod(ak * ak, n);
-        k *= 2;
-    }
-    
-//    std::cout << "k = " << k << std::endl;
-    
-    ak = k < exp ? ak * base : ak;
+        ak = mod(ak * a2, n);
+        a2 = ak;
 
-    return mod(ak, n);
+        k = k > 0 ? k * 2 : 2;
+    }
+
+    for (; k < exp; k += 1) {
+        ak = mod(ak * base, n);
+    }
+
+    return ak;
 }
 
 bool isProbablePrime(ll n, int certainty) {
