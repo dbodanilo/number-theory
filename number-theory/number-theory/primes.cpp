@@ -47,6 +47,20 @@ ll modpow(ll base, ll exp, ll n) {
     return ak;
 }
 
+bool isProbablePrimeTo(ll n, ll t, int h, ll a) {
+    ll beta = modpow(a, t, n);
+    if (beta == 1) return true;
+
+    for (int j = 0; j < h; j += 1) {
+        if (beta == n - 1) return true;
+        if (beta == 1) return false;
+
+        beta = mod(beta * beta, n);
+    }
+
+    return false;
+}
+
 bool isProbablePrime(ll n, int certainty) {
     /// If `certainty <= 0`, `true` is returned.
     if (certainty <= 0) return true;
@@ -55,13 +69,24 @@ bool isProbablePrime(ll n, int certainty) {
     vll ps = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
 
     /// Known prime.
-//    if (std::find(p.begin(), p.end(), n) != p.end()) return true;
+    if (std::find(ps.begin(), ps.end(), n) != ps.end()) return true;
 
     /// Even.
     if (n % 2 == 0) return false;
 
-    
+    /// `n - 1` is surely even.
+    ll t = (n - 1) / 2;
+    int h = 1;
 
-    return false;
+    while (t % 2 == 0) {
+        t /= 2;
+        h += 1;
+    }
+
+    for (int i = 0; i < certainty && i < ps.size(); i += 1) {
+        ll alpha = ps[i];
+        if (!isProbablePrimeTo(n, t, h, alpha)) return false;
+    }
+
+    return true;
 }
-
