@@ -20,16 +20,15 @@ int main(int argc, const char * argv[]) {
         std::cout << 3 << " `modpow` " << e << ", " << 7 << " = " << modpow(3, e, 7) << std::endl;
     }
 
-    /// Last 6 primes of A000040, followed by the first and
-        /// third Charmichael numbers, followed by the first 4
-        /// (originally 11) numbers of A014233.
-        vll pps = {
-            241,  251,  257,     263,      269,        271,
-            561, 1729, 2047, 1373653, 25326001, 3215031751,
-    //        2152302898747, 3474749660383, 341550071728321,
-    //        341550071728321, 3825123056546413051,
-    //        3825123056546413051
-        };
+    /// Last 4 primes of A000040, followed by the first 4
+    /// Charmichael numbers, followed by the first 4
+    /// (originally 11) numbers of A014233.
+    vll pps = {
+        257, 263, 269, 271, 561, 1105, 1729, 2465, 2047,
+        1373653, 25326001, 3215031751,
+//        2152302898747, 3474749660383, 341550071728321,
+//        341550071728321, 3825123056546413051,
+    };
 
         auto ps = std::set<ll>(pps.begin(), pps.end());
 
